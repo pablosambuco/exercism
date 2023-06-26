@@ -1,2 +1,2 @@
 def leap_year(year):
-    pass
+    return False if year % 4 != 0 else year % 100 != 0 or year % 400 == 0

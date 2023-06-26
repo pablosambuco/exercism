@@ -4,8 +4,9 @@ Learn about Guido, the creator of the Python language:
 https://en.wikipedia.org/wiki/Guido_van_Rossum
 """
 
-EXPECTED_BAKE_TIME=40
-PREPARATION_TIME=2
+EXPECTED_BAKE_TIME = 40
+PREPARATION_TIME = 2
+
 
 def bake_time_remaining(elapsed_bake_time):
     """Calculate the bake time remaining.
@@ -33,12 +34,13 @@ def preparation_time_in_minutes(layers):
     based on the PREPARATION_TIME.
     """
 
-    return layers*PREPARATION_TIME
+    return layers * PREPARATION_TIME
 
-#TODO: define the 'elapsed_time_in_minutes()' function below.
+
 # Remember to add a docstring (you can copy and then alter the one from bake_time_remaining.)
 
-def elapsed_time_in_minutes(layers,elapsed):
+
+def elapsed_time_in_minutes(layers, elapsed):
     """Returns the elapsed time.
 
     :return: int - elapsed time (in minutes).
@@ -46,4 +48,4 @@ def elapsed_time_in_minutes(layers,elapsed):
     Function that returns something.
     """
 
-    return preparation_time_in_minutes(layers)+elapsed
+    return preparation_time_in_minutes(layers) + elapsed

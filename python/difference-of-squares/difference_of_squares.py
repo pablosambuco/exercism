@@ -1,10 +1,16 @@
+"""
+difference of squares
+"""
+
+
 def square_of_sum(number):
-    pass
+    r = sum(range(1, number + 1))
+    return r**2
 
 
 def sum_of_squares(number):
-    pass
+    return sum(n**2 for n in range(1, number + 1))
 
 
 def difference_of_squares(number):
-    pass
+    return square_of_sum(number) - sum_of_squares(number)
