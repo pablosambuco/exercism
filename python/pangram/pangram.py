@@ -1,2 +1,7 @@
 def is_pangram(sentence):
-    pass
+    abc = {chr(x): 0 for x in range(ord("a"), ord("z") + 1)}
+    for c in sentence:
+        if c.lower() in abc:
+            abc[c.lower()] += 1
+    print(abc)
+    return all(abc.values())
