@@ -13,11 +13,30 @@ You can learn more here: https://en.wikipedia.org/wiki/Enumerated_type
 
 # Possible sublist categories.
 # Change the values as you see fit.
-SUBLIST = None
-SUPERLIST = None
-EQUAL = None
-UNEQUAL = None
+SUBLIST = -1
+SUPERLIST = 1
+EQUAL = 2
+UNEQUAL = 0
 
 
-def sublist(list_one, list_two):
-    pass
+def sublist(a, b):
+    if not a and not b:
+        return EQUAL
+    if a == b:
+        return EQUAL
+    if not b:
+        return SUPERLIST
+    if not a:
+        return SUBLIST
+    x = len(a)
+    y = len(b)
+    if x > y:
+        return sublist(b, a) * -1
+    for a_ in a:
+        if a_ in b:
+            for j in range(y):
+                if y - j < x:
+                    return UNEQUAL
+                if a == b[j : j + x]:
+                    return SUBLIST
+    return UNEQUAL
