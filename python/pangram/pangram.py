@@ -3,5 +3,4 @@ def is_pangram(sentence):
     for c in sentence:
         if c.lower() in abc:
             abc[c.lower()] += 1
-    print(abc)
     return all(abc.values())
