@@ -1,77 +1,91 @@
+"""Markdown Parser"""
 import re
+
+NOT_EXPR = "^(?!<h|<ul|<p|<li).*$"
+BOLD_EXPR = "(.*)__(.*)__(.*)"
+ITAL_EXPR = "(.*)_(.*)_(.*)"
+BULLET_EXPR = r"\* (.*)"
+
+BOLD = "strong"
+ITAL = "em"
+
+NEWLINE = "\n"
+
+
+def format_headers(line):
+    for l in range(6, 0, -1):
+        if re.match(f"{'#'*l} (.*)", line) is not None:
+            line = f"<h{l}>" + line[l + 1 :] + f"</h{l}>"
+            break
+    return line
+
+
+def text_format(m, f):
+    return m.group(1) + f"<{f}>" + m.group(2) + f"</{f}>" + m.group(3)
+
+
+def bold(m):
+    return text_format(m, BOLD)
+
+
+def italic(m):
+    return text_format(m, ITAL)
+
+
+def new_line(x):
+    return "<p>" + x + "</p>"
+
+
+def list_start(x):
+    return "<ul>" + x
+
+
+def list_end(x=""):
+    return "</ul>" + x
+
+
+def list_item(x):
+    return "<li>" + x + "</li>"
 
 
 def parse(markdown):
-    lines = markdown.split('\n')
-    res = ''
+    lines = markdown.split(NEWLINE)
+    res = []
     in_list = False
     in_list_append = False
     for i in lines:
-        if re.match('###### (.*)', i) is not None:
-            i = '<h6>' + i[7:] + '</h6>'
-        elif re.match('##### (.*)', i) is not None:
-            i = '<h5>' + i[6:] + '</h5>'
-        elif re.match('#### (.*)', i) is not None:
-            i = '<h4>' + i[5:] + '</h4>'
-        elif re.match('### (.*)', i) is not None:
-            i = '<h3>' + i[4:] + '</h3>'
-        elif re.match('## (.*)', i) is not None:
-            i = '<h2>' + i[3:] + '</h2>'
-        elif re.match('# (.*)', i) is not None:
-            i = '<h1>' + i[2:] + '</h1>'
-        m = re.match(r'\* (.*)', i)
+        i = format_headers(i)
+
+        m = re.match(BULLET_EXPR, i)
         if m:
+            curr = m.group(1)
+            i = list_item(curr)
             if not in_list:
                 in_list = True
-                is_bold = False
-                is_italic = False
-                curr = m.group(1)
-                m1 = re.match('(.*)__(.*)__(.*)', curr)
-                if m1:
-                    curr = m1.group(1) + '<strong>' + \
-                        m1.group(2) + '</strong>' + m1.group(3)
-                    is_bold = True
-                m1 = re.match('(.*)_(.*)_(.*)', curr)
-                if m1:
-                    curr = m1.group(1) + '<em>' + m1.group(2) + \
-                        '</em>' + m1.group(3)
-                    is_italic = True
-                i = '<ul><li>' + curr + '</li>'
-            else:
-                is_bold = False
-                is_italic = False
-                curr = m.group(1)
-                m1 = re.match('(.*)__(.*)__(.*)', curr)
-                if m1:
-                    is_bold = True
-                m1 = re.match('(.*)_(.*)_(.*)', curr)
-                if m1:
-                    is_italic = True
-                if is_bold:
-                    curr = m1.group(1) + '<strong>' + \
-                        m1.group(2) + '</strong>' + m1.group(3)
-                if is_italic:
-                    curr = m1.group(1) + '<em>' + m1.group(2) + \
-                        '</em>' + m1.group(3)
-                i = '<li>' + curr + '</li>'
-        else:
-            if in_list:
-                in_list_append = True
-                in_list = False
+                i = list_start(i)
+        elif in_list:
+            in_list_append = True
+            in_list = False
 
-        m = re.match('<h|<ul|<p|<li', i)
-        if not m:
-            i = '<p>' + i + '</p>'
-        m = re.match('(.*)__(.*)__(.*)', i)
+        m = re.match(NOT_EXPR, i)
         if m:
-            i = m.group(1) + '<strong>' + m.group(2) + '</strong>' + m.group(3)
-        m = re.match('(.*)_(.*)_(.*)', i)
+            i = new_line(i)
+
+        m = re.match(BOLD_EXPR, i)
         if m:
-            i = m.group(1) + '<em>' + m.group(2) + '</em>' + m.group(3)
+            i = bold(m)
+
+        m = re.match(ITAL_EXPR, i)
+        if m:
+            i = italic(m)
+
         if in_list_append:
-            i = '</ul>' + i
+            i = list_end(i)
             in_list_append = False
-        res += i
+
+        res.append(i)
+
     if in_list:
-        res += '</ul>'
-    return res
+        res.append(list_end())
+
+    return "".join(res)
