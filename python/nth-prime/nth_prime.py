@@ -18,5 +18,5 @@ def prime(number):
         if is_prime(i):
             primeslist.append(i)
         n = len(primeslist)
-        i += 1
+        i += 2
     return primeslist[number - 1]
