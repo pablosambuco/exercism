@@ -1,7 +1,5 @@
 """food chain poem"""
 
-from prettyprinter import pprint
-
 FLY, SPIDER, BIRD, CAT, DOG, GOAT, COW, HORSE = 0, 1, 2, 3, 4, 5, 6, 7
 
 first = "I know an old lady who swallowed a {}."
@@ -48,5 +46,4 @@ def recite(start_verse, end_verse):
             verses.append("")
         verses.extend(create_verse(verse))
 
-    pprint(verses)
     return verses
