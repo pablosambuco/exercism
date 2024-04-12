@@ -2,7 +2,6 @@
 
 
 class SpaceAge:
-    """made with dicts :)"""
     year_lengths = {
         k: v * (365.25 * 24 * 60 * 60)
         for k, v in {

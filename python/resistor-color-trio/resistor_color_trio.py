@@ -36,13 +36,13 @@ def label(colors):
 
     if x > 10**9:
         lab = "giga"
-        x = x / 10**9
+        x = x // 10**9
     elif x > 10**6:
         lab = "mega"
-        x = x / 10**6
+        x = x // 10**6
     elif x > 10**3:
         lab = "kilo"
-        x = x / 10**3
+        x = x // 10**3
     else:
         lab = ""
-    return f"{x} {lab}ohms"
+    return f"{str(x)} {lab}ohms"

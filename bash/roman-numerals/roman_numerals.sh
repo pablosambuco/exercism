@@ -1,24 +1,19 @@
 #!/usr/bin/env bash
 
-# The following comments should help you get started:
-# - Bash is flexible. You may use functions or write a "raw" script.
-#
-# - Complex code can be made easier to read by breaking it up
-#   into functions, however this is sometimes overkill in bash.
-#
-# - You can find links about good style and other resources
-#   for Bash in './README.md'. It came with this exercise.
-#
-#   Example:
-#   # other functions here
-#   # ...
-#   # ...
-#
-#   main () {
-#     # your main function code here
-#   }
-#
-#   # call main with all of the positional arguments
-#   main "$@"
-#
-# *** PLEASE REMOVE THESE COMMENTS BEFORE SUBMITTING YOUR SOLUTION ***
+main () {
+    number=$1
+    for pair in 1000,M 900,CM 500,D 400,CD 100,C 90,XC 50,L 40,XL 10,X 9,IX 5,V 4,IV 1,I
+    do 
+        IFS=","
+        set -- ${pair}
+        value=$1
+        repeat=$((number/value))
+        while [[ ${repeat} -gt 0 ]]; do
+            echo -n "$2"
+            repeat=$((repeat-1))
+        done
+        number=$((number%value))
+    done
+}
+
+main "$@"

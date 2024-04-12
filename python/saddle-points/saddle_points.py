@@ -1,6 +1,8 @@
 def saddle_points(matrix):
-
     rows = len(matrix)
+    if not rows:
+        return []
+
     cols = len(matrix[0])
     r_rows = range(rows)
     r_cols = range(cols)

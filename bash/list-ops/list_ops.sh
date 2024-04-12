@@ -22,37 +22,62 @@ fi
 
 # Append some elements to the given list.
 list::append () {
-    echo "Implement me" >&2
-    return 1
+    local -n __array=$1
+    shift
+    __array=( "${__array[@]}" "$@" )
 }
 
 # Return only the list elements that pass the given function.
 list::filter () {
-    echo "Implement me" >&2
-    return 1
+    local __function=$1
+    local -n __array=$2
+    local -n __output=$3
+    for element in ${__array[@]}
+    do
+        ${__function} ${element} && __output=( "${__output[@]}" "${element}" )
+    done
 }
 
 # Transform the list elements, using the given function,
 # into a new list.
 list::map () {
-    echo "Implement me" >&2
-    return 1
+    local __function=$1
+    local -n __array=$2
+    local -n __output=$3
+    for element in ${__array[@]}
+    do
+        new_value=$(${__function} ${element})
+       __output=( "${__output[@]}" "${new_value}" )
+    done
 }
 
 # Left-fold the list using the function and the initial value.
 list::foldl () {
-    echo "Implement me" >&2
-    return 1
+    local __function=$1
+    local __value=$2
+    local -n __array=$3
+    for element in ${__array[@]}
+    do
+        __value=$(${__function} "${__value}" "${element}")
+    done
+    echo "${__value}"
 }
 
 # Right-fold the list using the function and the initial value.
 list::foldr () {
-    echo "Implement me" >&2
-    return 1
+    local __function=$1
+    local __value=$2
+    local -n __array=$3
+    list::fold "${__function} ${__value} $(list::reverse __array)"
 }
 
 # Return the list reversed
 list::reverse () {
-    echo "Implement me" >&2
-    return 1
+    set -o noglob
+    local -n __array=$1
+    local -n __output=$2
+    for element in ${__array[@]}
+    do
+        __output=( "${element}" "${__output[@]}")
+    done
 }

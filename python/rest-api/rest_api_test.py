@@ -124,21 +124,7 @@ class RestApiTest(unittest.TestCase):
                 {"name": "Bob", "owes": {}, "owed_by": {"Adam": 1.0}, "balance": 1.0},
             ]
         }
-        coso = {
-            "users": [
-                {
-                    "name": "Adam",
-                    "owes": {"Bob": 1.0},
-                    "owed_by": {"Bob": 2.0},
-                    "balance": -1.0,
-                },
-                {"name": "Bob", "owes": {"Adam": 2.0},                    "owed_by": {"Adam": 1.0},                    "balance": 1.0
-                },
-            ]
-        }
         self.assertDictEqual(json.loads(response), expected)
-
-
 
     def test_lender_owes_borrower_less_than_new_loan(self):
         database = {
