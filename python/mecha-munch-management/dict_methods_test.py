@@ -31,7 +31,6 @@ class MechaMunchManagementTest(unittest.TestCase):
                             f'expected: {expected} once the item was added.')
 
                 self.assertEqual(actual_result, expected, msg=error_msg)
-        
 
     @pytest.mark.task(taskno=2)
     def test_read_notes(self):
@@ -55,7 +54,7 @@ class MechaMunchManagementTest(unittest.TestCase):
         input_data = [
                         ({'Banana Bread' : {'Banana': 1, 'Apple': 1, 'Walnuts': 1, 'Flour': 1, 'Eggs': 2, 'Butter': 1},
                           'Raspberry Pie' : {'Raspberry': 1, 'Orange': 1, 'Pie Crust': 1, 'Cream Custard': 1}},
-                        (('Banana Bread', {'Banana': 4,  'Walnuts': 2, 'Flour': 1, 'Eggs': 2, 'Butter': 1, 'Milk': 2, 'Eggs': 3}),)),
+                        (('Banana Bread', {'Banana': 4,  'Walnuts': 2, 'Flour': 1, 'Butter': 1, 'Milk': 2, 'Eggs': 3}),)),
 
                         ({'Apple Pie': {'Apple': 1, 'Pie Crust': 1, 'Cream Custard': 1},
                           'Blueberry Pie': {'Blueberries': 1, 'Pie Crust': 1, 'Cream Custard': 1}},
@@ -71,7 +70,7 @@ class MechaMunchManagementTest(unittest.TestCase):
                      ]
 
         output_data = [
-                        {'Banana Bread': {'Banana': 4,  'Walnuts': 2, 'Flour': 1, 'Eggs': 2, 'Butter': 1, 'Milk': 2, 'Eggs': 3},
+                        {'Banana Bread': {'Banana': 4,  'Walnuts': 2, 'Flour': 1, 'Butter': 1, 'Milk': 2, 'Eggs': 3},
                          'Raspberry Pie': {'Raspberry': 1, 'Orange': 1, 'Pie Crust': 1, 'Cream Custard': 1}},
                         {'Apple Pie': {'Apple': 1, 'Pie Crust': 1, 'Cream Custard': 1},
                         'Blueberry Pie': {'Blueberries': 2, 'Pie Crust': 1, 'Cream Custard': 1}},
@@ -130,11 +129,19 @@ class MechaMunchManagementTest(unittest.TestCase):
                           'Yoghurt': ['Aisle 2', True], 'Milk': ['Aisle 2', True]}),
 
                         ({'Apple': 2, 'Raspberry': 2, 'Blueberries': 5,
-                          'Broccoli' : 2, 'Kiwi': 1, 'Melon': 4},
+                          'Broccoli': 2, 'Kiwi': 1, 'Melon': 4},
 
                          {'Apple': ['Aisle 1', False], 'Raspberry': ['Aisle 6', False],
                           'Blueberries': ['Aisle 6', False], 'Broccoli': ['Aisle 3', False],
-                          'Kiwi': ['Aisle 6', False], 'Melon': ['Aisle 6', False]})
+                          'Kiwi': ['Aisle 6', False], 'Melon': ['Aisle 6', False]}),
+
+                        ({'Orange': 1},
+                         {'Banana': ['Aisle 5', False], 'Apple': ['Aisle 4', False],
+                          'Orange': ['Aisle 4', False], 'Milk': ['Aisle 2', True]}),
+
+                        ({'Banana': 3, 'Apple': 2, 'Orange': 1},
+                         {'Banana': ['Aisle 5', False], 'Apple': ['Aisle 4', False],
+                          'Orange': ['Aisle 4', False], 'Milk': ['Aisle 2', True]}),
                       ]
 
         output_data = [
@@ -146,7 +153,12 @@ class MechaMunchManagementTest(unittest.TestCase):
 
                         {'Raspberry': [2, 'Aisle 6', False], 'Melon': [4, 'Aisle 6', False],
                          'Kiwi': [1, 'Aisle 6', False], 'Broccoli': [2, 'Aisle 3', False],
-                         'Blueberries': [5, 'Aisle 6', False], 'Apple': [2, 'Aisle 1', False]}
+                         'Blueberries': [5, 'Aisle 6', False], 'Apple': [2, 'Aisle 1', False]},
+
+                        {'Orange': [1, 'Aisle 4', False]},
+
+                        {'Orange': [1, 'Aisle 4', False], 'Banana': [3, 'Aisle 5', False],
+                         'Apple': [2, 'Aisle 4', False]},
                       ]
 
         for variant, (input_data, expected) in enumerate(zip(input_data, output_data), start=1):
