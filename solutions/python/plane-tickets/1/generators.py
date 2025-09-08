@@ -13,8 +13,27 @@ def generate_seat_letters(number):
     Example: A, B, C, D
 
     """
+    letters = ["A", "B", "C", "D"]
+    for idx in range(number):
+        yield letters[idx % 4]
 
-    pass
+
+def generate_row_numbers(number):
+    """Generate row numbers
+
+    :param number: int - total number of row numbers to be generated
+    :return: generator - generator that yields row numbers
+
+    There is no row 13.
+    Each row has 4 seats.
+
+    Args:
+        number (_type_): _description_
+    """
+    numbers = [i + 1 for i in range(number // 4 + 1)]
+    for idx in range(number):
+        n = numbers[idx // 4]
+        yield n if n < 13 else n + 1
 
 
 def generate_seats(number):
@@ -33,8 +52,11 @@ def generate_seats(number):
     Example: 3C, 3D, 4A, 4B
 
     """
+    numbers = generate_row_numbers(number)
+    letters = generate_seat_letters(number)
+    for idx in range(number):
+        yield f"{next(numbers)}{next(letters)}"
 
-    pass
 
 def assign_seats(passengers):
     """Assign seats to passengers.
@@ -45,8 +67,9 @@ def assign_seats(passengers):
     Example output: {"Adele": "1A", "Björk": "1B"}
 
     """
+    seat = generate_seats(len(passengers))
+    return {p: next(seat) for p in passengers}
 
-    pass
 
 def generate_codes(seat_numbers, flight_id):
     """Generate codes for a ticket.
@@ -56,5 +79,6 @@ def generate_codes(seat_numbers, flight_id):
     :return: generator - generator that yields 12 character long ticket codes.
 
     """
-
-    pass
+    for seat in seat_numbers:
+        yield f"{seat}{flight_id}".ljust(12,"0")
+    
