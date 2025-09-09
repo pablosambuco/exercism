@@ -5,10 +5,7 @@ def annotate(garden):
     if not garden:
         return []
 
-    if (
-        any(c not in ["*", " "] for c in l) or any(len(l) != len(garden[0]))
-        for l in garden
-    ):
+    if any(any(c not in ["*", " "] for c in l) or len(l) != len(garden[0]) for l in garden):
         raise ValueError("The board is invalid with current input.")
 
     adjacents = [(x, y) for y in (-1, 0, 1) for x in (-1, 0, 1) if x or y]
