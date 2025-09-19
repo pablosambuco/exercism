@@ -1,7 +1,13 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any
 
 NODE, EDGE, ATTR = range(3)
+
+VALIDATION = {
+    NODE: {"len": 2, "msg": "Node is malformed"},
+    EDGE: {"len": 3, "msg": "Edge is malformed"},
+    ATTR: {"len": 2, "msg": "Attribute is malformed"},
+}
 
 
 @dataclass(eq=True, frozen=False)
@@ -46,28 +52,23 @@ class Graph:
             EDGE: self._add_edge,
             ATTR: self._add_attr,
         }
+        
+        itemdata = item[1:]
+        self._test_len(type_, len(itemdata))
+        action[type_](itemdata)
 
-        action[type_](item[1:])
+    def _test_len(self, type, itemsize):
+        if VALIDATION[type]["len"] != itemsize:
+            raise ValueError(VALIDATION[type]["msg"])
 
     def _add_node(self, itemdata):
-        if len(itemdata) != 2:
-            raise ValueError("Node is malformed")
-
         name, attrs = itemdata
         self.nodes.append(Node(name, attrs))
 
     def _add_edge(self, itemdata):
-
-        if len(itemdata) != 3:
-            raise ValueError("Edge is malformed")
-
         src, dst, attrs = itemdata
         self.edges.append(Edge(src, dst, attrs))
 
     def _add_attr(self, itemdata):
-
-        if len(itemdata) != 2:
-            raise ValueError("Attribute is malformed")
-
         key, value = itemdata
-        self.attrs.update({key: value})
+        self.attrs[key] = value
