@@ -12,7 +12,6 @@ from alphametics import (
 class AlphameticsTest(unittest.TestCase):
     def test_puzzle_with_three_letters(self):
         self.assertEqual(solve("I + BB == ILL"), {"I": 1, "B": 9, "L": 0})
-
     def test_solution_must_have_unique_value_for_each_letter(self):
         self.assertEqual(solve("A == B"), None)
 
@@ -64,7 +63,7 @@ class AlphameticsTest(unittest.TestCase):
         )
 
     # See https://github.com/exercism/python/pull/1358
-    @unittest.skip("extra-credit")
+    #@unittest.skip("extra-credit")
     def test_puzzle_with_ten_letters_and_199_addends(self):
         """This test may take a long time to run. Please be patient when running it."""
         puzzle = (
